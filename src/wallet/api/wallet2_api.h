@@ -982,6 +982,7 @@ struct Wallet
 
     virtual TransactionHistory * history() = 0;
     virtual AddressBook * addressBook() = 0;
+    virtual Coins * coins() = 0;
     virtual Subaddress * subaddress() = 0;
     virtual SubaddressAccount * subaddressAccount() = 0;
     virtual void setListener(WalletListener *) = 0;
