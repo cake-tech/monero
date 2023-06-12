@@ -35,6 +35,7 @@
 #include "transaction_history.h"
 #include "address_book.h"
 #include "subaddress.h"
+#include "coins.h"
 #include "subaddress_account.h"
 #include "common_defines.h"
 #include "common/util.h"
@@ -435,6 +436,7 @@ WalletImpl::WalletImpl(NetworkType nettype, uint64_t kdf_rounds)
     m_refreshEnabled = false;
     m_addressBook.reset(new AddressBookImpl(this));
     m_subaddress.reset(new SubaddressImpl(this));
+    m_coins.reset(new CoinsImpl(this));
     m_subaddressAccount.reset(new SubaddressAccountImpl(this));
 
 
@@ -1794,6 +1796,11 @@ TransactionHistory *WalletImpl::history()
 AddressBook *WalletImpl::addressBook()
 {
     return m_addressBook.get();
+}
+
+Coins *WalletImpl::coins()
+{
+    return m_coins.get();
 }
 
 Subaddress *WalletImpl::subaddress()
