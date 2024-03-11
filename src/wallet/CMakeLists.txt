@@ -40,6 +40,14 @@ set(wallet_sources
   wallet_rpc_payments.cpp
 )
 
+find_library( # Defines the name of the path variable that stores the
+              # location of the NDK library.
+              log-lib
+
+              # Specifies the name of the NDK library that
+              # CMake needs to locate.
+              log )
+
 monero_find_all_headers(wallet_private_headers "${CMAKE_CURRENT_SOURCE_DIR}")
 
 monero_private_headers(wallet
@@ -63,6 +71,7 @@ target_link_libraries(wallet
     ${Boost_SYSTEM_LIBRARY}
     ${Boost_THREAD_LIBRARY}
     ${Boost_REGEX_LIBRARY}
+    ${log-lib}
   PRIVATE
     ${EXTRA_LIBRARIES})
 
@@ -97,7 +106,8 @@ if(NOT IOS)
       ${Boost_FILESYSTEM_LIBRARY}
       ${Boost_THREAD_LIBRARY}
       ${CMAKE_THREAD_LIBS_INIT}
-      ${EXTRA_LIBRARIES})
+      ${EXTRA_LIBRARIES}
+      ${log-lib})
   set_property(TARGET wallet_rpc_server
     PROPERTY
       OUTPUT_NAME "monero-wallet-rpc")

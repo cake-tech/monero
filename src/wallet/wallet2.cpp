@@ -43,6 +43,7 @@
 #include <boost/range/adaptor/transformed.hpp>
 #include <boost/preprocessor/stringize.hpp>
 #include <openssl/evp.h>
+#include <android/log.h>
 #include "include_base_utils.h"
 using namespace epee;
 
@@ -6491,7 +6492,7 @@ void wallet2::store_to(const std::string &path, const epee::wipeable_string &pas
       LOG_ERROR("error removing file: " << old_file);
     }
   }
-  
+
   if (m_message_store.get_active())
   {
     // While the "m_message_store" object of course always exist, a file for the message
@@ -8215,6 +8216,10 @@ uint32_t wallet2::adjust_priority(uint32_t priority)
       const uint64_t base_fee = get_base_fee(1);
       const double fee_level = base_fee * (use_per_byte_fee ? 1 : (12/(double)13 / (double)1024));
       const std::vector<std::pair<uint64_t, uint64_t>> blocks = estimate_backlog({std::make_pair(fee_level, fee_level)});
+
+      __android_log_print(ANDROID_LOG_DEBUG, "flutter from CPP", "blocks size %d", blocks.size());
+      __android_log_print(ANDROID_LOG_DEBUG, "flutter from CPP", "blocks[0].first: %d", blocks[0].first);
+
       if (blocks.size() != 1)
       {
         MERROR("Bad estimated backlog array size");
@@ -8268,6 +8273,10 @@ uint32_t wallet2::adjust_priority(uint32_t priority)
       // estimate how 'full' the last N blocks are
       const size_t P = 100 * block_weight_sum / (N * full_reward_zone);
       MINFO((boost::format("The last %d blocks fill roughly %d%% of the full reward zone.") % N % P).str());
+
+      __android_log_print(ANDROID_LOG_DEBUG, "flutter from CPP", "P %d", P);
+      __android_log_print(ANDROID_LOG_DEBUG, "flutter from CPP", "N: %d", N);
+
       if (P > 80)
       {
         MINFO("We don't use the low priority because recent blocks are quite full.");
