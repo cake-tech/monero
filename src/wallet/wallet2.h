@@ -1717,8 +1717,6 @@ private:
     
     boost::shared_mutex m_transfers_mutex;
 
-    boost::shared_mutex m_transfers_mutex;
-
   private:
     /*!
      * \brief  Stores wallet information to wallet file.
